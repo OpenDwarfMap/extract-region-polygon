@@ -4,16 +4,17 @@ use std::ops::Add;
 use std::ops::Mul;
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Vec2 {
-    x: i32,
-    y: i32,
+    pub x: i32,
+    pub y: i32,
 }
 
 #[wasm_bindgen]
 #[derive(Debug)]
 pub struct Polygon {
-    vertices: Vec<Vec<i32>>,
+    vertices: Vec<Vec2>,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]
@@ -72,12 +73,6 @@ impl Mul<Vec2> for i32 {
     }
 }
 
-impl Vec2 {
-    pub fn to_vec(self: Self) -> Vec<i32> {
-        vec![self.x, self.y]
-    }
-}
-
 #[wasm_bindgen]
 impl Polygon {
     pub fn from_enclosed_squares_string(squares: String, scaling: Option<i32>) -> Self {
@@ -99,9 +94,7 @@ impl Polygon {
 
         let initial_pos = squares.get(0).unwrap().clone();
 
-        let mut p = Polygon {
-            vertices: vec![initial_pos.to_vec()],
-        };
+        let mut p = Polygon { vertices: vec![] };
 
         let mut cur_dir = Directions::Down;
         let mut prev_dir = Directions::None;
@@ -144,9 +137,13 @@ impl Polygon {
             }
 
             if prev_dir != cur_dir {
-                p.vertices.push((scaling * cur_pos).to_vec());
+                p.vertices.push(scaling * cur_pos);
             }
         }
         return p;
+    }
+
+    pub fn vertices(self) -> Vec<Vec2> {
+        self.vertices
     }
 }

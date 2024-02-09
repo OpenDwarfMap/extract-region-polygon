@@ -2,7 +2,7 @@
 name = "extract-region-polygon"
 version = "0.1.0"
 authors = ["Laura VIETOR <pvietor@centrale-med>"]
-description = "A small library to extract the border of a polyomino defined by the coordinate of its squares."
+description = "A small library to extract the border of a polyomino defined by the coordinates of the squares it contains."
 edition = "2018"
 
 [lib]
